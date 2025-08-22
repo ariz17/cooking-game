@@ -13,12 +13,21 @@ let lastRecipeName = '';
 let timerInterval = null;
 let timeLeft = 15;
 let strikes = 0;
+let selectedBackground = 1; // Default background
+let selectedChef = 'female'; // Default chef
 const MAX_STRIKES = 3;
 const ORDER_TIME_LIMIT = 15;
+const BACKGROUND_VIDEOS = {
+    1: 'https://raw.githubusercontent.com/ariz17/cooking-game/5322a124c0dca1e825822838be1fca3548f1a41f/assets/Background%20Vid.mov',
+    2: 'https://raw.githubusercontent.com/ariz17/cooking-game/67cf259ea80f80525fb9e92de39b60885397a877/assets/Background%20Vid%203.mp4',
+    3: 'https://raw.githubusercontent.com/ariz17/cooking-game/67cf259ea80f80525fb9e92de39b60885397a877/assets/Background%20Vid%202.mp4',
+};
 
 // --- DOM Elements ---
 const loadingScreen = document.getElementById('loading-screen');
 const introScreen = document.getElementById('intro-screen');
+const chefSelectionScreen = document.getElementById('chef-selection-screen');
+const backgroundSelectionScreen = document.getElementById('background-selection-screen');
 const gameContainer = document.querySelector('.game-container');
 const scoreDisplay = document.getElementById('score');
 const customerOrderDisplay = document.getElementById('customer-order');
@@ -32,6 +41,8 @@ const chefInfo = document.querySelector('.chef-info');
 const chefNameDisplay = document.getElementById('chef-name-display');
 const chefNameInput = document.getElementById('chef-name-input');
 const startButton = document.getElementById('start-btn');
+const continueToBackgroundBtn = document.getElementById('continue-to-bg-btn');
+const startGameButton = document.getElementById('start-game-btn');
 const cookModel = document.getElementById('cook-model');
 const instructionsBtn = document.getElementById('instructions-btn');
 const instructionsModal = document.getElementById('instructions-modal');
@@ -40,7 +51,10 @@ const hintBtn = document.getElementById('hint-btn');
 const hintContent = document.getElementById('hint-content');
 const hintIngredients = document.getElementById('hint-ingredients');
 const gameOverModal = document.getElementById('game-over-modal');
+const bgVideo = document.getElementById('bg-video');
 const restartBtn = document.getElementById('restart-btn');
+const bgSelectionOptions = document.querySelectorAll('.bg-selection-option');
+const chefSelectionOptions = document.querySelectorAll('.chef-selection-option');
 
 // Add the URL of your animated cook image here
 //cookModel.src = ""; // Example: "https://your-image-host.com/cook.gif"
@@ -72,8 +86,16 @@ function getIngredientIcon(name) {
 }
 async function loadGameData() {
     try {
-        const response = await fetch(`http://localhost:8080/api/gamedata?ts=${Date.now()}`);
+        // Add cache-busting timestamp and no-cache headers to prevent caching
+        const response = await fetch(`http://localhost:8080/api/gamedata?ts=${Date.now()}`, {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            }
+        });
         const data = await response.json();
+        console.log('Loaded game data:', data); // Debug log to see what data is loaded
         // Normalize recipes to guard against stale backend data
         const normalizedRecipes = { ...(data.recipes || {}) };
         if (Object.prototype.hasOwnProperty.call(normalizedRecipes, 'Sweet Tea')) {
@@ -117,24 +139,100 @@ async function loadGameData() {
 }
 
 /**
- * Starts the game, hides the intro screen, and shows the game.
+ * Shows the name input screen after selecting chef
  */
-function startGame() {
+function showNameInput() {
+    introScreen.classList.add('fade-out');
+    setTimeout(() => {
+        introScreen.classList.add('hidden');
+        chefSelectionScreen.classList.remove('hidden');
+    }, 180);
+}
+
+/**
+ * Handles chef selection
+ */
+function selectChef(chefType) {
+    selectedChef = chefType;
+    
+    // Update UI to show selected chef
+    chefSelectionOptions.forEach(option => {
+        option.classList.remove('selected');
+        if (option.dataset.chef === chefType) {
+            option.classList.add('selected');
+        }
+    });
+    
+    // Update the chef image
+    if (chefType === 'male') {
+        cookModel.src = 'https://raw.githubusercontent.com/ariz17/cooking-game/baec44290ada2844fcc1cf73932bceaad84a6e7b/assets/Chef%202.jpg';
+    } else {
+        cookModel.src = 'https://raw.githubusercontent.com/ariz17/cooking-game/3e226d7f8411fe125e6e937d5e36b74a0bd0fc9b/assets/Chef.jpg';
+    }
+}
+
+/**
+ * Shows the background selection screen after entering name
+ */
+function showBackgroundSelection() {
     const chefName = chefNameInput.value.trim();
     if (chefName) {
         chefNameDisplay.textContent = chefName;
-        introScreen.classList.add('fade-out');
+        chefSelectionScreen.classList.add('fade-out');
         setTimeout(() => {
-            introScreen.classList.add('hidden');
+            chefSelectionScreen.classList.add('hidden');
+            backgroundSelectionScreen.classList.remove('hidden');
         }, 180);
+    } else {
+        alert("Please enter a name to continue.");
+    }
+}
+
+/**
+ * Handles background selection
+ */
+function selectBackground(bgNumber) {
+    selectedBackground = bgNumber;
+    
+    // Update UI to show selected background
+    bgSelectionOptions.forEach(option => {
+        option.classList.remove('selected');
+        if (parseInt(option.dataset.bg) === bgNumber) {
+            option.classList.add('selected');
+        }
+    });
+    
+    // Update video source
+    bgVideo.src = BACKGROUND_VIDEOS[bgNumber];
+    
+    // Make the background video visible during selection
+    bgVideo.style.opacity = '0.8';
+    bgVideo.style.filter = 'brightness(0.8)';
+    
+    // Add a semi-transparent overlay to make text more readable
+    document.body.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+    backgroundSelectionScreen.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+}
+
+/**
+ * Starts the game after selecting background
+ */
+function startGame() {
+    backgroundSelectionScreen.classList.add('fade-out');
+    
+    // Reset background video styles
+    bgVideo.style.opacity = '1';
+    bgVideo.style.filter = 'brightness(0.65)';
+    document.body.style.backgroundColor = '';
+    
+    setTimeout(() => {
+        backgroundSelectionScreen.classList.add('hidden');
         gameContainer.classList.remove('hidden');
         chefInfo.classList.remove('hidden');
         strikes = 0;
         gameContainer.classList.remove('disabled-overlay');
         newOrder();
-    } else {
-        alert("Please enter a name to start.");
-    }
+    }, 180);
 }
 
 /**
@@ -272,6 +370,10 @@ function serveOrder() {
         statusMessageDisplay.classList.remove('fade-in');
         void statusMessageDisplay.offsetWidth;
         statusMessageDisplay.classList.add('fade-in');
+        
+        // Show score animation for +10 points
+        showScoreChange(10, true);
+        
         score += 10;
         scoreDisplay.textContent = score;
         stopTimer();
@@ -284,6 +386,10 @@ function serveOrder() {
         statusMessageDisplay.classList.remove('fade-in');
         void statusMessageDisplay.offsetWidth;
         statusMessageDisplay.classList.add('fade-in');
+        
+        // Show score animation for -5 points
+        showScoreChange(-5, false);
+        
         score = Math.max(0, score - 5);
         scoreDisplay.textContent = score;
         setTimeout(() => {
@@ -302,6 +408,29 @@ function resetGame() {
 }
 
 /**
+ * Shows a score change animation with the specified amount and color.
+ * @param {number} amount - The amount of points to show (positive or negative).
+ * @param {boolean} isPositive - Whether the score change is positive or negative.
+ */
+function showScoreChange(amount, isPositive) {
+    const scoreChangeElement = document.createElement('div');
+    scoreChangeElement.className = `score-change ${isPositive ? 'score-positive' : 'score-negative'}`;
+    scoreChangeElement.textContent = `${isPositive ? '+' : ''}${amount}`;
+    
+    // Position the score change element near the score display
+    const rect = scoreDisplay.getBoundingClientRect();
+    scoreChangeElement.style.left = `${rect.left + rect.width / 2}px`;
+    scoreChangeElement.style.top = `${rect.top}px`;
+    
+    document.body.appendChild(scoreChangeElement);
+    
+    // Remove the element after the animation completes
+    setTimeout(() => {
+        document.body.removeChild(scoreChangeElement);
+    }, 1000);
+}
+
+/**
  * Shows the hint with ingredients needed for the current order.
  */
 function showHint() {
@@ -312,6 +441,14 @@ function showHint() {
         hintContent.classList.add('hidden');
         return;
     }
+    
+    // Refresh current order from recipes to ensure we have the latest data
+    const currentRecipeName = customerOrderDisplay.textContent.replace('Order: ', '');
+    if (recipes[currentRecipeName]) {
+        currentOrder = recipes[currentRecipeName].slice();
+        console.log('Updated current order for hint:', currentOrder);
+    }
+    
     hintIngredients.innerHTML = '';
     currentOrder.forEach(ingredient => {
         const ingredientSpan = document.createElement('span');
@@ -356,10 +493,13 @@ function stopTimer() {
 }
 
 function handleTimeout() {
-    score = Math.max(0, score - 10);
+    // Show score animation for -5 points
+    showScoreChange(-5, false);
+    
+    score = Math.max(0, score - 5);
     strikes += 1;
     scoreDisplay.textContent = score;
-    statusMessageDisplay.textContent = "Time's up! -10 points";
+    statusMessageDisplay.textContent = "Time's up! -5 points";
     if (strikes >= MAX_STRIKES) {
         endGame();
         return;
@@ -396,12 +536,31 @@ function restartGame() {
 }
 
 // --- Event Listeners ---
-startButton.addEventListener('click', startGame);
+startButton.addEventListener('click', showNameInput);
 startButton.addEventListener('mousedown', () => startButton.classList.add('btn-press'));
 startButton.addEventListener('mouseup', () => startButton.classList.remove('btn-press'));
+
+// Chef selection event listeners
+chefSelectionOptions.forEach(option => {
+    option.addEventListener('click', () => selectChef(option.dataset.chef));
+});
+
+// Continue to background button
+continueToBackgroundBtn.addEventListener('click', showBackgroundSelection);
+continueToBackgroundBtn.addEventListener('mousedown', () => continueToBackgroundBtn.classList.add('btn-press'));
+continueToBackgroundBtn.addEventListener('mouseup', () => continueToBackgroundBtn.classList.remove('btn-press'));
+
+// Background selection event listeners
+bgSelectionOptions.forEach(option => {
+    option.addEventListener('click', () => selectBackground(parseInt(option.dataset.bg)));
+});
+
+startGameButton.addEventListener('click', startGame);
+startGameButton.addEventListener('mousedown', () => startGameButton.classList.add('btn-press'));
+startGameButton.addEventListener('mouseup', () => startGameButton.classList.remove('btn-press'));
 chefNameInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
-        startGame();
+        showBackgroundSelection();
     }
 });
 serveButton.addEventListener('click', serveOrder);

@@ -26,18 +26,78 @@
         <p class="mt-6 text-3xl font-bold text-white drop-shadow-lg">Loading...</p>
     </div>
 
-    <!-- Intro Screen -->
+    <!-- Chef Selection Screen (First Screen) -->
     <div id="intro-screen" class="hidden intro-screen-animate">
+        <div class="intro-card">
+            <h2 class="text-3xl font-extrabold text-gray-800 mb-4">Choose Your Chef</h2>
+            <p class="text-gray-600 mb-6">Select your chef character!</p>
+            <div class="chef-selection-container">
+                <div class="chef-selection-option" data-chef="male">
+                    <div class="chef-preview">
+                        <img src="https://raw.githubusercontent.com/ariz17/cooking-game/baec44290ada2844fcc1cf73932bceaad84a6e7b/assets/Chef%202.jpg" alt="Male Chef" class="chef-preview-img">
+                    </div>
+                    <p>Male Chef</p>
+                </div>
+                <div class="chef-selection-option" data-chef="female">
+                    <div class="chef-preview">
+                        <img src="https://raw.githubusercontent.com/ariz17/cooking-game/3e226d7f8411fe125e6e937d5e36b74a0bd0fc9b/assets/Chef.jpg" alt="Female Chef" class="chef-preview-img">
+                    </div>
+                    <p>Female Chef</p>
+                </div>
+            </div>
+            <div class="flex justify-center gap-4 mb-4 mt-6">
+                <button id="start-btn" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">
+                    Next
+                </button>
+                <button id="instructions-btn" class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition">
+                    📖 Instructions
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Name Input Screen (Second Screen) -->
+    <div id="chef-selection-screen" class="hidden intro-screen-animate">
         <div class="intro-card">
             <h2 class="text-3xl font-extrabold text-gray-800 mb-4">Welcome, Chef!</h2>
             <p class="text-gray-600 mb-6">Enter your name to begin.</p>
             <input type="text" id="chef-name-input" placeholder="Your Name" class="p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4">
-            <div class="flex gap-4 mb-4">
-                <button id="start-btn" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">
-                    Start Game
+            <div class="mt-6 flex justify-center">
+                <button id="continue-to-bg-btn" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">
+                    Continue
                 </button>
-                <button id="instructions-btn" class="bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition">
-                    📖 Instructions
+            </div>
+        </div>
+    </div>
+    
+    <!-- Background Selection Screen -->
+    <div id="background-selection-screen" class="hidden intro-screen-animate">
+        <div class="intro-card">
+            <h2 class="text-3xl font-extrabold text-gray-800 mb-4">Choose Your Background</h2>
+            <p class="text-gray-600 mb-6">Select a background for your cooking adventure!</p>
+            <div class="bg-selection-container">
+                <div class="bg-selection-option" data-bg="1">
+                    <div class="bg-preview bg-preview-1">
+                        <img src="https://raw.githubusercontent.com/ariz17/cooking-game/9c1c9d582afa474697c640d6585f27203801bb27/assets/Kitchen%201.png" alt="Background 1" class="preview-img">
+                    </div>
+                    <p>Background 1</p>
+                </div>
+                <div class="bg-selection-option" data-bg="2">
+                    <div class="bg-preview bg-preview-2">
+                        <img src="https://raw.githubusercontent.com/ariz17/cooking-game/9c1c9d582afa474697c640d6585f27203801bb27/assets/Kitchen%202.png" alt="Background 2" class="preview-img">
+                    </div>
+                    <p>Background 2</p>
+                </div>
+                <div class="bg-selection-option" data-bg="3">
+                    <div class="bg-preview bg-preview-3">
+                        <img src="https://raw.githubusercontent.com/ariz17/cooking-game/9c1c9d582afa474697c640d6585f27203801bb27/assets/Kitchen%203.jpeg" alt="Background 3" class="preview-img">
+                    </div>
+                    <p>Background 3</p>
+                </div>
+            </div
+            <div class="mt-6 flex justify-center">
+                <button id="start-game-btn" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition">
+                    Start Game
                 </button>
             </div>
         </div>
@@ -63,8 +123,8 @@
                         <li>• Each customer has <strong>15 seconds</strong>. Watch the timer next to the order.</li>
                         <li>• Select the required ingredients (with small icons) from the buttons below.</li>
                         <li>• Click "Serve" to submit. Correct serve: <strong>+10</strong> points.</li>
-                        <li>• If time runs out: <strong>-10</strong> points and a <strong>new customer and dish</strong> appear.</li>
-                        <li>• After <strong>3 timeouts</strong>, the game ends with a Game Over popup. Click Play Again to restart.</li>
+                        <li>• If time runs out: <strong>-5</strong> points and a <strong>new customer and dish</strong> appear.</li>
+                        <li>• After <strong>3 timeouts</strong>, game ends with a popup. Click Play Again to restart.</li>
                         <li>• Click the lightbulb to toggle a hint showing the needed ingredients.</li>
                     </ul>
                 </div>
@@ -94,7 +154,7 @@
                         </div>
                         <div class="bg-gray-50 p-3 rounded">
                             <h5 class="font-semibold text-gray-800">Potato Balls</h5>
-                            <p class="text-sm text-gray-600">Potato + Flour + Oil</p>
+                            <p class="text-sm text-gray-600">Potato + Flour + Oil + Salt</p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded">
                             <h5 class="font-semibold text-gray-800">Pizza</h5>
@@ -138,25 +198,25 @@
     </div>
 
     <div class="game-container hidden">
-        <h1 class="text-3xl font-extrabold text-gray-800 mb-4">Order Up! 👨‍🍳</h1>
+        <h1 class="text-2xl font-extrabold text-gray-800 mb-2">Order Up! 👨‍🍳</h1>
         
         <div class="score-display mb-2">
             Score: <span id="score">0</span>
         </div>
 
         <!-- Customer & Order Area -->
-        <div class="customer-area mb-8">
+        <div class="customer-area mb-3">
             <div class="customer-controls">
-                <button id="serve-btn" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition">
+                <button id="serve-btn" class="bg-green-500 text-white font-bold py-1.5 px-3 rounded-lg hover:bg-green-600 transition">
                     Serve
                 </button>
                 <img id="customer-image" src="" alt="Customer" class="customer-image">
-                <button id="reset-btn" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition">
+                <button id="reset-btn" class="bg-red-500 text-white font-bold py-1.5 px-3 rounded-lg hover:bg-red-600 transition">
                     Reset
                 </button>
             </div>
             <div class="order-hint-container">
-                <h2 id="customer-order" class="text-2xl font-semibold text-gray-700">Awaiting Order...</h2>
+                <h2 id="customer-order" class="text-xl font-semibold text-gray-700">Awaiting Order...</h2>
                 <div id="timer" class="timer-badge hidden">15s</div>
                 <div class="hint-section">
                     <button id="hint-btn" class="hint-button">

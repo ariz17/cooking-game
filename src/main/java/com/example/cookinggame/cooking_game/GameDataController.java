@@ -32,7 +32,7 @@ public class GameDataController {
         recipes.put("Lemonade", Arrays.asList("water", "sugar", "lemon"));
         recipes.put("Coffee", Arrays.asList("coffee powder", "milk", "sugar"));
         recipes.put("Burger", Arrays.asList("bread", "patty", "cheese"));
-        recipes.put("Potato Balls", Arrays.asList("potato", "flour", "oil"));
+        recipes.put("Potato Balls", Arrays.asList("potato", "flour", "oil", "salt"));
         recipes.put("Pizza", Arrays.asList("dough", "cheese", "tomato", "pepperoni"));
         recipes.put("French Fries", Arrays.asList("potato", "oil", "salt"));
         recipes.put("Chocos", Arrays.asList("chocos fills", "sugar", "milk"));
