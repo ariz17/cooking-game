@@ -1,0 +1,14 @@
+{
+  "name": "cooking-game-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for the Cooking Game application",
+  "main": "static/index.html",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "http-proxy-middleware": "^2.0.9",
+    "serve": "^14.2.1"
+  }
+}
