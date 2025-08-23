@@ -1,33 +1,40 @@
-HELP.md
+### Maven ###
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+.m2/
+pom.xml.tag
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+.mvn/
+.mvn/wrapper/
 
-### VS Code ###
+### Spring Boot ###
+*.class
+bin/
+logs/
+tmp/
+*.log
+*.zip
+*.tar.gz
+*.jar
+*.war
+*.rar
+*.ear
+*.car
+
+### IDE ###
+.idea/
+.project
+.classpath
+.settings/
 .vscode/
+*.iml
+*.iws
+*.ipr
+*.c9/
+
+# OS specific files
+.DS_Store
+Thumbs.db
