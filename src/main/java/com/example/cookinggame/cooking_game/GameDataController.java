@@ -72,4 +72,10 @@ public class GameDataController {
         headers.add("Expires", "0");
         return ResponseEntity.ok().headers(headers).body(data);
     }
+
+    // Add this new method
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "OK";
+    }
 }
