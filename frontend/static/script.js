@@ -234,9 +234,9 @@ function selectChef(chefType) {
     
     // Update the chef image
     if (chefType === 'male') {
-        cookModel.src = 'https://raw.githubusercontent.com/ariz17/cooking-game/baec44290ada2844fcc1cf73932bceaad84a6e7b/assets/Chef%202.jpg';
+        cookModel.src = '/assets/Chef 2.jpg';
     } else {
-        cookModel.src = 'https://raw.githubusercontent.com/ariz17/cooking-game/3e226d7f8411fe125e6e937d5e36b74a0bd0fc9b/assets/Chef.jpg';
+        cookModel.src = '/assets/Chef.jpg';
     }
 }
 
