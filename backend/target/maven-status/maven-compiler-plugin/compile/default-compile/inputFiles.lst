@@ -1,2 +1,5 @@
-c:\Users\asus\Desktop\cooking-game\backend\src\main\java\com\example\cookinggame\cooking_game\CookingGameApplication.java
-c:\Users\asus\Desktop\cooking-game\backend\src\main\java\com\example\cookinggame\cooking_game\GameDataController.java
+C:\Users\asus\Desktop\cooking-game\backend\src\main\java\com\example\cookinggame\cooking_game\config\CorsConfig.java
+C:\Users\asus\Desktop\cooking-game\backend\src\main\java\com\example\cookinggame\cooking_game\CookingGameApplication.java
+C:\Users\asus\Desktop\cooking-game\backend\src\main\java\com\example\cookinggame\cooking_game\CustomErrorController.java
+C:\Users\asus\Desktop\cooking-game\backend\src\main\java\com\example\cookinggame\cooking_game\GameDataController.java
+C:\Users\asus\Desktop\cooking-game\backend\src\main\java\com\example\cookinggame\cooking_game\RootController.java

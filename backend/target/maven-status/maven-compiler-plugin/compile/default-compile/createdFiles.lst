@@ -1,0 +1,6 @@
+com\example\cookinggame\cooking_game\config\CorsConfig.class
+com\example\cookinggame\cooking_game\CustomErrorController.class
+com\example\cookinggame\cooking_game\RootController.class
+com\example\cookinggame\cooking_game\GameDataController.class
+com\example\cookinggame\cooking_game\config\CorsConfig$1.class
+com\example\cookinggame\cooking_game\CookingGameApplication.class

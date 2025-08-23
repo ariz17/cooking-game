@@ -2,21 +2,26 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Copy Maven files
+# Install Maven
+RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
+
+# Copy Maven files first for better caching
 COPY pom.xml ./
+COPY mvnw ./
+COPY mvnw.cmd ./
+COPY .mvn ./.mvn
 
 # Download dependencies
-RUN apt-get update && apt-get install -y maven
-RUN mvn dependency:go-offline
+RUN mvn dependency:go-offline -B
 
 # Copy source code
 COPY src ./src
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -B
 
-# Expose port (Render will override this with PORT env var)
-EXPOSE $PORT
+# Expose port
+EXPOSE 10000
 
-# Run the application
-CMD ["java", "-jar", "target/cooking-game-0.0.1-SNAPSHOT.jar"]
+# Run the application with proper JVM settings for containers
+CMD ["java", "-Xmx512m", "-Xms256m", "-jar", "target/cooking-game-0.0.1-SNAPSHOT.jar"]
