@@ -1,22 +1,11 @@
-# Use a base image with Java installed
-FROM openjdk:17-jdk-slim
-
-# Set the working directory inside the container
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
-
-# Copy the Maven build file and source code
-COPY .mvn .mvn
-COPY mvnw pom.xml ./
+COPY pom.xml .
 COPY src ./src
+RUN mvn package -DskipTests
 
-# Make the Maven wrapper executable
-RUN chmod +x mvnw
-
-# Build the application using Maven
-RUN ./mvnw package -DskipTests
-
-# Expose the port your application will listen on
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Define the command to run the application
-ENTRYPOINT ["java", "-jar", "target/cooking-game-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
