@@ -1,0 +1,40 @@
+### Maven ###
+target/
+.m2/
+pom.xml.tag
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+build/
+.mvn/
+.mvn/wrapper/
+
+### Spring Boot ###
+*.class
+bin/
+logs/
+tmp/
+*.log
+*.zip
+*.tar.gz
+*.jar
+*.war
+*.rar
+*.ear
+*.car
+
+### IDE ###
+.idea/
+.project
+.classpath
+.settings/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.c9/
+
+# OS specific files
+.DS_Store
+Thumbs.db

@@ -175,7 +175,7 @@ async function loadGameData() {
         loadingScreenMessage.className = 'mt-4 p-4 bg-red-100 text-red-700 rounded-lg error-message';
         loadingScreenMessage.innerHTML = `
             <p><strong>Error:</strong> Could not connect to the backend server.</p>
-            <p>Please ensure the backend server is running on port 8081.</p>
+            <p>Please ensure the backend server is running on port 3000.</p>
             <p>Check the browser console for more details.</p>
             <div class="mt-3">
                 <button id="retry-connection" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition">

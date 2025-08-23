@@ -7,4 +7,6 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: BACKEND_URL
+        value: https://cooking-game-backend.onrender.com
     plan: free

@@ -27,10 +27,12 @@ const server = http.createServer((req, res) => {
     console.log(`Proxying request to backend: ${req.url}`);
 
     // Forward the request to the backend
-    const backendUrl = 'http://localhost:3000'; // Backend is running on port 3000
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000';
+    // Parse the backend URL
+    const backendUrlObj = new URL(backendUrl);
     const options = {
-      hostname: 'localhost',
-      port: 3000,
+      hostname: backendUrlObj.hostname,
+      port: backendUrlObj.port || (backendUrlObj.protocol === 'https:' ? 443 : 80),
       path: req.url,
       method: req.method,
       headers: req.headers
