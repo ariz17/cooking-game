@@ -39,6 +39,8 @@ Once both servers are running:
 - Frontend: http://localhost:3001
 - Backend API: http://localhost:3000/api/gamedata
 
+Note: Accessing the backend root URL (http://localhost:3000/) will return a 404 error. This is expected behavior as the backend is a REST API service that only responds to specific endpoints like `/api/gamedata`.
+
 ## Troubleshooting
 
 ### Backend server not starting
@@ -54,3 +56,9 @@ Make sure you're in the backend directory and have Java 17+ installed.
 ### Images not loading
 
 The customer images are served by the frontend server. Make sure the frontend server is running and the image files are in the `frontend/static/assets` directory.
+
+### Health check endpoints
+
+The backend now has two health check endpoints:
+- http://localhost:3000/actuator/health (Spring Boot Actuator - for Render deployment)
+- http://localhost:3000/api/gamedata/health (Custom endpoint - simple "OK" response)
