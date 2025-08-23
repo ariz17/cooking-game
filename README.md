@@ -2,6 +2,33 @@
 
 A fun cooking game built with Spring Boot and JavaScript.
 
+## Game Features
+
+- Choose your chef character
+- Select kitchen background
+- Prepare various recipes
+- Serve customers with their orders
+- Track your score
+
+## Technologies Used
+
+- Spring Boot (Backend)
+- JavaScript (Frontend)
+- HTML/CSS
+- Docker for containerization
+
+## Project Structure
+
+This project is separated into two parts for deployment to Render:
+
+### Frontend
+
+The frontend is a static web application built with HTML, CSS, and JavaScript. It's located in the `frontend` directory.
+
+### Backend
+
+The backend is a Spring Boot application written in Java. It's located in the `backend` directory.
+
 ## Deployment to Render
 
 This project is configured to be deployed to Render using Docker. Follow these steps to deploy your game:
@@ -25,18 +52,24 @@ This project is configured to be deployed to Render using Docker. Follow these s
 
 #### Option 2: Manual Deployment
 
-1. Push your code to a GitHub repository
-2. Log in to your Render account
-3. Click on the "New" button and select "Web Service"
-4. Connect your GitHub repository
-5. Select "Docker" as the environment
-6. Configure the service with the following settings:
-   - Name: cooking-game (or your preferred name)
-   - Region: Choose the region closest to your users
-   - Branch: main (or your default branch)
-   - Root Directory: Leave empty if your Dockerfile is in the root, otherwise specify
-   - Environment Variables: Add `SPRING_PROFILES_ACTIVE=prod`
-7. Click "Create Web Service" to start the deployment
+##### Frontend Deployment
+
+1. Connect your Git repository to Render
+2. Create a new Web Service
+3. Select the `frontend` directory as the root directory
+4. Set the environment to Node.js
+5. Set the build command to `npm install`
+6. Set the start command to `npm start`
+
+##### Backend Deployment
+
+1. Connect your Git repository to Render
+2. Create a new Web Service
+3. Select the `backend` directory as the root directory
+4. Set the environment to Docker
+5. Set the environment variable `SPRING_PROFILES_ACTIVE` to `prod`
+
+## Local Development
 
 ### Running Locally with Docker
 
@@ -49,17 +82,19 @@ docker-compose up --build
 # Access the application at http://localhost:8080
 ```
 
-## Game Features
+### Manual Local Setup
 
-- Choose your chef character
-- Select kitchen background
-- Prepare various recipes
-- Serve customers with their orders
-- Track your score
+#### Frontend
 
-## Technologies Used
+```bash
+cd frontend
+npm install
+npm start
+```
 
-- Spring Boot (Backend)
-- JavaScript (Frontend)
-- HTML/CSS
-- Docker for containerization
+#### Backend
+
+```bash
+cd backend
+./mvnw spring-boot:run
+```

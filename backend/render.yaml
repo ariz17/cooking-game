@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: cooking-game-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+    plan: free
