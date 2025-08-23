@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: cooking-game
-    env: docker
-    dockerfilePath: ./Dockerfile
-    healthCheckPath: /health
-    healthCheckGracePeriod: 180s
