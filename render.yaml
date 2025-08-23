@@ -2,12 +2,6 @@ services:
   - type: web
     name: cooking-game
     env: docker
-    plan: free
     dockerfilePath: ./Dockerfile
-    dockerContext: .
-    envVars:
-      - key: SPRING_PROFILES_ACTIVE
-        value: prod
-    healthCheckPath: /
-    numInstances: 1
-    region: oregon
+    healthCheckPath: /health
+    healthCheckGracePeriod: 180s
