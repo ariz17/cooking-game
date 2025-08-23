@@ -7,6 +7,8 @@ services:
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: FRONTEND_URL
+        value: https://cooking-game-frontend.onrender.com
     plan: free
     # Note: CORS is configured to allow requests from the frontend
     # Make sure to update the frontend URL in CorsConfig.java if it changes

@@ -69,6 +69,12 @@ When deploying to Render, make sure the frontend and backend URLs are correctly 
 
 If your Render URLs are different, update them in the CorsConfig.java file.
 
+### Environment Variables
+
+When deploying to Render, make sure the following environment variables are set:
+- FRONTEND_URL in the backend service (should match your frontend Render URL)
+- BACKEND_URL in the frontend service (should match your backend Render URL)
+
 ## Accessing the Application
 
 Once both servers are running:

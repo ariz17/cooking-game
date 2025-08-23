@@ -43,12 +43,13 @@ public class GameDataController {
         data.put("ingredients", ingredients);
 
         // Customer images - using absolute paths to frontend server
+        String frontendUrl = System.getenv("FRONTEND_URL") != null ? System.getenv("FRONTEND_URL") : "http://localhost:3001";
         List<String> customerImages = Arrays.asList(
-            "http://localhost:3001/assets/Customer%201.png",
-            "http://localhost:3001/assets/Customer%202.png",
-            "http://localhost:3001/assets/Customer%203.png",
-            "http://localhost:3001/assets/Customer%204.png",
-            "http://localhost:3001/assets/Customer%205.png"
+            frontendUrl + "/assets/Customer%201.png",
+            frontendUrl + "/assets/Customer%202.png",
+            frontendUrl + "/assets/Customer%203.png",
+            frontendUrl + "/assets/Customer%204.png",
+            frontendUrl + "/assets/Customer%205.png"
         );
         
         // Available recipe names
