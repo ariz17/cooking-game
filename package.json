@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "build": "mkdir public && cp -r src/* public/ && cp -r assets/* public/",
-    "start": "serve public"
-  },
-  "dependencies": {
-    "serve": "^14.2.0"
-  }
-}
