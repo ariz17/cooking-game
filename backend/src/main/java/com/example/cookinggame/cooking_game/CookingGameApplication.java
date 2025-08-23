@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({ "com.example.cookinggame", "com.example.cookinggame.cooking_game" })
+@ComponentScan({ "com.example.cookinggame", "com.example.cookinggame.cooking_game", "com.example.cookinggame.cooking_game.config" })
 public class CookingGameApplication {
 
     public static void main(String[] args) {

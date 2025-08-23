@@ -3,12 +3,12 @@ echo Starting Cooking Game servers...
 echo.
 
 echo Starting backend server...
-start "Backend Server" cmd /k "cd backend && mvnw.cmd spring-boot:run"
+start "Backend Server" cmd /c "cd backend && mvnw.cmd spring-boot:run"
 
-timeout /t 10 /nobreak >nul
+ping 127.0.0.1 -n 16 >nul
 
 echo Starting frontend server...
-start "Frontend Server" cmd /k "cd frontend && node server.js"
+start "Frontend Server" cmd /c "cd frontend && node server.js"
 
 echo.
 echo Servers started successfully!

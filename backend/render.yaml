@@ -8,3 +8,5 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
     plan: free
+    # Note: CORS is configured to allow requests from the frontend
+    # Make sure to update the frontend URL in CorsConfig.java if it changes
