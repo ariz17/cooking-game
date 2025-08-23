@@ -44,11 +44,11 @@ public class GameDataController {
 
         // Customer images - using absolute paths to frontend server
         List<String> customerImages = Arrays.asList(
-            "http://localhost:3001/assets/Customer 1.png",
-            "http://localhost:3001/assets/Customer 2.png",
-            "http://localhost:3001/assets/Customer 3.png",
-            "http://localhost:3001/assets/Customer 4.png",
-            "http://localhost:3001/assets/Customer 5.png"
+            "http://localhost:3001/assets/Customer%201.png",
+            "http://localhost:3001/assets/Customer%202.png",
+            "http://localhost:3001/assets/Customer%203.png",
+            "http://localhost:3001/assets/Customer%204.png",
+            "http://localhost:3001/assets/Customer%205.png"
         );
         
         // Available recipe names
