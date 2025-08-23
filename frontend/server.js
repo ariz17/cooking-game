@@ -28,6 +28,8 @@ const server = http.createServer((req, res) => {
 
     // Forward the request to the backend
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000';
+    console.log(`Backend URL: ${backendUrl}`);
+    
     // Parse the backend URL
     const backendUrlObj = new URL(backendUrl);
     const options = {
@@ -35,21 +37,41 @@ const server = http.createServer((req, res) => {
       port: backendUrlObj.port || (backendUrlObj.protocol === 'https:' ? 443 : 80),
       path: req.url,
       method: req.method,
-      headers: req.headers
+      headers: {
+        ...req.headers,
+        host: backendUrlObj.hostname // Override host header to prevent loop
+      }
     };
 
     // Use https module for HTTPS requests
     const requestModule = backendUrlObj.protocol === 'https:' ? require('https') : http;
     
     const proxyReq = requestModule.request(options, (proxyRes) => {
-      res.writeHead(proxyRes.statusCode, proxyRes.headers);
+      // Add CORS headers
+      const headers = {
+        ...proxyRes.headers,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': '*'
+      };
+      res.writeHead(proxyRes.statusCode, headers);
       proxyRes.pipe(res);
     });
 
     proxyReq.on('error', (err) => {
       console.error('Proxy error:', err);
-      res.writeHead(500);
-      res.end('Proxy error: ' + err.message);
+      console.error('Backend URL:', backendUrl);
+      console.error('Request URL:', req.url);
+      res.writeHead(500, {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      });
+      res.end(JSON.stringify({
+        error: 'Proxy error',
+        message: err.message,
+        backendUrl: backendUrl,
+        requestUrl: req.url
+      }));
     });
 
     // Handle request body if present
