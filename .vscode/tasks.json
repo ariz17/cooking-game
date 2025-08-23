@@ -1,0 +1,45 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Refresh Workspace",
+            "type": "shell",
+            "command": "${workspaceFolder}\\refresh_vscode.bat",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Start Backend",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/backend && .\\mvnw.cmd spring-boot:run",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Start Frontend",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/frontend && node server.js",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "dependsOn": ["Start Backend"]
+        },
+        {
+            "label": "Start Application",
+            "dependsOn": ["Start Frontend"],
+            "problemMatcher": []
+        }
+    ]
+}

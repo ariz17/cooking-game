@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "ritwickdey.liveserver",
+        "ms-vscode.vscode-js-profile-flame",
+        "eamodio.gitlens",
+        "ms-vsliveshare.vsliveshare",
+        "gruntfuggly.auto-refresh"
+    ]
+}
