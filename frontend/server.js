@@ -38,7 +38,10 @@ const server = http.createServer((req, res) => {
       headers: req.headers
     };
 
-    const proxyReq = http.request(options, (proxyRes) => {
+    // Use https module for HTTPS requests
+    const requestModule = backendUrlObj.protocol === 'https:' ? require('https') : http;
+    
+    const proxyReq = requestModule.request(options, (proxyRes) => {
       res.writeHead(proxyRes.statusCode, proxyRes.headers);
       proxyRes.pipe(res);
     });
@@ -110,5 +113,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Frontend server running on port ${PORT}`);
-  console.log(`API requests will be proxied to the backend running on port 3000.`);
+  console.log(`API requests will be proxied to: ${process.env.BACKEND_URL || 'http://localhost:3000'}`);
 });
