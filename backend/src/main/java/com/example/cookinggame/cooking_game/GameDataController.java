@@ -42,14 +42,13 @@ public class GameDataController {
         List<String> ingredients = Arrays.asList("chocolate icecream", "milk", "sugar", "water", "lemon", "bread", "patty", "cheese", "potato", "flour", "oil", "dough", "tomato", "pepperoni", "salt", "chicken", "chocos fills", "coffee powder");
         data.put("ingredients", ingredients);
 
-        // Customer images - using absolute paths to frontend server
-        String frontendUrl = System.getenv("FRONTEND_URL") != null ? System.getenv("FRONTEND_URL") : "http://localhost:3001";
+        // Customer images - using relative paths
         List<String> customerImages = Arrays.asList(
-            frontendUrl + "/assets/Customer%201.png",
-            frontendUrl + "/assets/Customer%202.png",
-            frontendUrl + "/assets/Customer%203.png",
-            frontendUrl + "/assets/Customer%204.png",
-            frontendUrl + "/assets/Customer%205.png"
+            "/assets/Customer%201.png",
+            "/assets/Customer%202.png",
+            "/assets/Customer%203.png",
+            "/assets/Customer%204.png",
+            "/assets/Customer%205.png"
         );
         
         // Available recipe names

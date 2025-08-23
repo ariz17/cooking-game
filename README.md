@@ -6,8 +6,11 @@ The game's backend server wasn't loading properly, preventing the frontend from 
 ## Solution Applied
 1. Removed duplicate project structure in `backend/src/src/` that was causing confusion
 2. Fixed incorrect port number in error message (was showing 8081, should be 3000)
+3. Updated CORS configuration to be more permissive for deployment
+4. Fixed customer image paths to work in deployed environments
+5. Simplified environment variable configuration
 
-## How to Start the Game
+## How to Start the Game Locally
 
 ### Prerequisites
 - Java 17 or higher
@@ -61,6 +64,34 @@ To verify that the frontend can successfully connect to the backend:
 3. Test the backend endpoints directly:
    - Health check: http://localhost:3000/api/gamedata/health (should return "OK")
    - Game data: http://localhost:3000/api/gamedata (should return JSON with recipes and ingredients)
+
+## Deploying to Render
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+### Quick Deployment Steps
+
+1. Deploy the backend service first with these settings:
+   - Root Directory: `backend`
+   - Environment: Docker
+   - Environment Variables:
+     - `SPRING_PROFILES_ACTIVE`: `prod`
+
+2. Deploy the frontend service with these settings:
+   - Root Directory: `frontend`
+   - Environment: Node
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+   - Environment Variables:
+     - `NODE_ENV`: `production`
+     - `BACKEND_URL`: `[your backend URL]`
+
+### Testing Your Deployment
+
+You can test your deployment using the provided test script:
+```
+node test-deployment.js
+```
 
 ### Troubleshooting
 - If you see "Connection failed! Backend server not responding.", make sure the backend server is running

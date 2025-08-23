@@ -15,8 +15,8 @@ COPY src ./src
 # Build the application
 RUN mvn clean package -DskipTests
 
-# Expose port
-EXPOSE 3000
+# Expose port (Render will override this with PORT env var)
+EXPOSE $PORT
 
 # Run the application
 CMD ["java", "-jar", "target/cooking-game-0.0.1-SNAPSHOT.jar"]
