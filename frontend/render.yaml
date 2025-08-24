@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: ariz17
+    name: cooking-game-frontend
     env: node
     buildCommand: npm install
     startCommand: node server.js
