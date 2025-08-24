@@ -1,5 +1,5 @@
 services:
-  - type: web
+  - type: worker
     name: cooking-game-keepalive
     env: node
     buildCommand: npm install
