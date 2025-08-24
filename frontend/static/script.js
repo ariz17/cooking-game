@@ -89,21 +89,28 @@ async function loadGameData() {
     try {
         console.log('Attempting to load game data from backend...');
         if (connectionStatusDisplay) {
-            connectionStatusDisplay.textContent = 'Connecting to backend server...';
+            connectionStatusDisplay.textContent = 'Waking up backend server... This may take 30-60 seconds.';
             connectionStatusDisplay.classList.remove('text-red-500');
             connectionStatusDisplay.classList.add('text-white');
         }
         
         // Add cache-busting timestamp and no-cache headers to prevent caching
         // Use relative path for API calls (will be proxied by server.js)
+        // Increase timeout for backend wake-up
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 second timeout
+        
         const response = await fetch(`/api/gamedata?ts=${Date.now()}`, {
             headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
                 'Pragma': 'no-cache',
                 'Expires': '0'
-            }
+            },
+            signal: controller.signal
             // No need for CORS mode when using same-origin requests
         });
+        
+        clearTimeout(timeoutId);
         
         // Check if response is OK
         if (!response.ok) {
