@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: cooking-game-keepalive
-    env: node
-    buildCommand: npm install
-    startCommand: node keep-alive.js
-    plan: free

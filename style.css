@@ -1,0 +1,812 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    text-align: center;
+    margin: 0;
+    overflow-x: hidden;
+}
+/* Background video fills viewport and sits behind content */
+.bg-video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    filter: brightness(0.65);
+}
+
+/* Selection Styles (shared between background and chef selection) */
+.bg-selection-container,
+.chef-selection-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.bg-selection-option,
+.chef-selection-option {
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.bg-selection-option:hover,
+.chef-selection-option:hover {
+    transform: translateY(-5px);
+}
+
+.bg-selection-option.selected,
+.chef-selection-option.selected {
+    border-color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.bg-preview,
+.chef-preview {
+    width: 120px;
+    height: 80px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.chef-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.preview-img,
+.chef-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+}
+
+/* Kitchen preview images now use actual different images instead of filters */
+
+.bg-preview::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 0;
+    text-align: center;
+    z-index: 1;
+}
+
+.bg-preview-1::after {
+    content: "Kitchen 1";
+}
+
+.bg-preview-2::after {
+    content: "Kitchen 2";
+}
+
+.bg-preview-3::after {
+    content: "Kitchen 3";
+}
+.game-container {
+    max-width: 800px;
+    width: 90%;
+    height: auto;
+    max-height: 85vh;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    z-index: 20;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.customer-area {
+    background: transparent;
+    border-radius: 1rem;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.customer-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.order-hint-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.hint-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    position: relative;
+}
+
+.hint-button {
+    background-color: #fbbf24;
+    color: #92400e;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hint-button:hover {
+    background-color: #f59e0b;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hint-text {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.hint-content {
+    background-color: #fef3c7;
+    border: 2px solid #fbbf24;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    text-align: left;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 220px;
+    max-width: min(70vw, 360px);
+    z-index: 50;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.hint-label {
+    font-weight: bold;
+    color: #92400e;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.hint-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.hint-ingredient {
+    background-color: #fbbf24;
+    color: #92400e;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.ingredient-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
+
+.timer-badge {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 2px solid #ef4444;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.disabled-overlay {
+    pointer-events: none;
+    opacity: 0.6;
+}
+.customer-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    background-color: transparent;
+    margin-bottom: 0.4rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.ingredient-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    max-height: 180px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 1rem;
+    margin-bottom: 0.75rem;
+    flex: 1;
+}
+.ingredient-btn {
+    background-color: #4f46e5;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transform: translateY(0);
+    font-size: 0.8rem;
+    min-width: 70px;
+}
+.ingredient-btn:hover {
+    background-color: #4338ca;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+.ingredient-btn.active {
+    background-color: #10b981;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    pointer-events: none;
+    opacity: 0.95;
+}
+
+/* Smooth press transitions for all buttons */
+button, .ingredient-btn, .hint-button {
+    transition: transform 120ms ease, box-shadow 150ms ease, background-color 200ms ease;
+    /* Touch-friendly sizing */
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure all interactive elements are touch-friendly */
+.bg-selection-option,
+.chef-selection-option {
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth animation helpers */
+.fade-in { animation: fadeIn 200ms ease both; }
+.fade-out { animation: fadeOut 150ms ease both; }
+.btn-press { transform: scale(0.97) !important; }
+
+/* Score change animation */
+.score-change {
+    position: absolute;
+    font-weight: bold;
+    font-size: 1.2rem;
+    animation: scoreChange 1s ease-out forwards;
+    z-index: 100;
+}
+
+.score-positive {
+    color: #10b981; /* Green color */
+}
+
+.score-negative {
+    color: #ef4444; /* Red color */
+}
+
+@keyframes scoreChange {
+    0% { opacity: 0; transform: translateY(0); }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-4px); }
+}
+
+/* Modal pop animation */
+#instructions-modal > div,
+#game-over-modal > div {
+    animation: modalPop 220ms ease both;
+}
+
+@keyframes modalPop {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Hint popover subtle drop */
+.hint-content { animation: hintDrop 180ms ease both; }
+@keyframes hintDrop {
+    from { opacity: 0; transform: translate(-50%, -6px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+.status-message {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 0.75rem;
+    flex-shrink: 0;
+}
+.score-display {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.4rem;
+    flex-shrink: 0;
+}
+.chef-info {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 10;
+    text-align: center;
+}
+.chef-info img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.chef-info p {
+    display: inline-block;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    color: #111827;
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.intro-screen-animate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(243, 244, 246, 0.95);
+    z-index: 30;
+    overflow: hidden;
+    animation: fadeIn 220ms ease both;
+}
+.intro-card {
+    background-color: #fff;
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Instructions modal styling */
+#instructions-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#instructions-modal.hidden {
+    display: none !important;
+}
+
+#game-over-modal.hidden {
+    display: none !important;
+}
+
+/* Loading screen responsive design */
+#loading-screen {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    animation: fadeIn 220ms ease both;
+}
+
+#loading-screen img {
+    max-width: 80vw;
+    max-height: 60vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+#loading-screen p {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 2rem;
+    margin-top: 2rem;
+    font-weight: bold;
+}
+
+/* Tablet and smaller desktop screens */
+@media (max-width: 1024px) {
+    .game-container {
+        width: 95%;
+        padding: 1.5rem;
+    }
+    
+    .chef-info {
+        bottom: 1.5rem;
+        left: 1.5rem;
+    }
+    
+    .chef-info img {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Mobile landscape and tablet portrait */
+@media (max-width: 768px) {
+    body {
+        padding: 0.5rem;
+    }
+    
+    #loading-screen img {
+        max-width: 90vw;
+        max-height: 50vh;
+    }
+    
+    #loading-screen p {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    .game-container {
+        width: 98%;
+        padding: 1rem;
+        max-height: 90vh;
+        margin: 0.5rem auto;
+    }
+    
+    .game-container h1 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .intro-card {
+        padding: 1.5rem;
+        margin: 0.5rem;
+        width: 95%;
+        max-width: none;
+    }
+    
+    .intro-card h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Chef and background selection for mobile */
+    .bg-selection-container,
+    .chef-selection-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .bg-selection-option,
+    .chef-selection-option {
+        width: 100%;
+        max-width: 200px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        text-align: left;
+    }
+    
+    .bg-preview,
+    .chef-preview {
+        width: 80px;
+        height: 60px;
+        flex-shrink: 0;
+    }
+    
+    .chef-preview {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+    
+    /* Customer area mobile optimization */
+    .customer-controls {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .customer-controls button {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        min-width: 80px;
+    }
+    
+    .order-hint-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    #customer-order {
+        font-size: 1.1rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .ingredient-buttons {
+        gap: 0.3rem;
+        max-height: 200px;
+        padding: 0.75rem;
+    }
+    
+    .ingredient-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+        min-width: 85px;
+        flex: 1 1 calc(50% - 0.15rem);
+        max-width: calc(50% - 0.15rem);
+        text-align: center;
+    }
+    
+    .customer-image {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .chef-info {
+        bottom: 0.5rem;
+        left: 0.5rem;
+        transform: scale(0.8);
+        transform-origin: bottom left;
+    }
+    
+    .chef-info img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .chef-info p {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+        max-width: 150px;
+    }
+    
+    /* Hint content mobile optimization */
+    .hint-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90vw;
+        min-width: auto;
+        width: auto;
+    }
+    
+    /* Modal optimization for mobile */
+    #instructions-modal .bg-white {
+        margin: 1rem;
+        max-height: 85vh;
+        width: calc(100% - 2rem);
+    }
+    
+    #game-over-modal .bg-white {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
+    
+    .grid.grid-cols-1.md\:grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+    body {
+        padding: 0.25rem;
+    }
+    
+    #loading-screen img {
+        max-width: 95vw;
+        max-height: 40vh;
+    }
+    
+    #loading-screen p {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+    
+    .game-container {
+        width: 99%;
+        padding: 0.75rem;
+        margin: 0.25rem auto;
+        max-height: 95vh;
+    }
+    
+    .game-container h1 {
+        font-size: 1.3rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .intro-card {
+        padding: 1rem;
+        margin: 0.25rem;
+        width: 98%;
+    }
+    
+    .intro-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .intro-card p {
+        font-size: 0.9rem;
+    }
+    
+    /* Ultra-compact ingredient buttons for small phones */
+    .ingredient-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+        min-width: 75px;
+        flex: 1 1 calc(50% - 0.15rem);
+    }
+    
+    .customer-controls button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+        min-width: 70px;
+    }
+    
+    .customer-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .score-display {
+        font-size: 1.1rem;
+    }
+    
+    .status-message {
+        font-size: 1rem;
+    }
+    
+    .chef-info {
+        transform: scale(0.7);
+    }
+    
+    .chef-info img {
+        width: 70px;
+        height: 70px;
+    }
+    
+    /* Buttons in intro screens */
+    .intro-card button {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .intro-card input {
+        padding: 0.75rem;
+        font-size: 1rem;
+        width: 100%;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    .ingredient-btn {
+        flex: 1 1 100%;
+        max-width: 100%;
+        margin-bottom: 0.25rem;
+    }
+    
+    .customer-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .customer-controls button {
+        width: 100%;
+        max-width: 150px;
+    }
+    
+    .chef-info {
+        transform: scale(0.6);
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+    .game-container {
+        max-height: 95vh;
+        padding: 0.5rem;
+    }
+    
+    .intro-card {
+        padding: 1rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .customer-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .chef-info {
+        transform: scale(0.5);
+    }
+    
+    .ingredient-buttons {
+        max-height: 120px;
+    }
+}
